@@ -1,0 +1,8 @@
+cluster.name: my-elasticsearch-cluster
+node.name: {{ inventory_hostname }}
+path.data: /var/lib/elasticsearch
+path.logs: /var/log/elasticsearch
+network.host: 0.0.0.0
+http.port: 9200  # Specify the desired HTTP port here
+discovery.seed_hosts: ["192.168.56.108"]
+cluster.initial_master_nodes: ["192.168.56.108"]

@@ -1,0 +1,52 @@
+
+  - name: install required packages (CentOS)
+    yum:
+      name:
+        - epel-release
+      state: latest
+
+  - name: Add Elasticsearch YUM repository (CentOS)
+    yum_repository:
+      name: elasticsearch
+      description: Elasticsearch repository
+      baseurl: https://artifacts.elastic.co/packages/7.x/yum
+      gpgcheck: yes
+      gpgkey: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+      enabled: yes
+
+  - name: Install Elasticsearch (Centos)
+    package:
+      name: elasticsearch
+      state: present
+
+  - name: Copy Elasticsearch configuration file (Centos)
+    template:
+      src: elasticsearch.yml.j2
+      dest: /etc/elasticsearch/elasticsearch.yml
+    #notify: Restart Elasticsearch
+
+  - name: Install Kibana (Centos)
+    yum:
+      name: kibana
+      state: present
+
+  - name: Install Logstash (Centos)
+    yum:
+      name: logstash
+      state: present
+
+  - name: Enable / Restart Logstash (Centos)
+    systemd:
+      name: logstash-service
+      state: started
+
+  - name: Enable / Restart Elasticsearch (Centos)
+    service:
+      name: elasticsearch
+      state: started
+
+  - name: Enable / Restart Kibana (Centos)
+    service:
+      name: kibana
+      state: started
+

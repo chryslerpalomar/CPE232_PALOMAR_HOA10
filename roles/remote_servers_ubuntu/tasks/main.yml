@@ -1,0 +1,50 @@
+  - name: install required packages (Ubuntu)
+    apt:
+      name:
+        - apt-transport-https
+      state: latest
+
+  - name: Install the Elasticsearch GPG key (Ubuntu)
+    apt_key:
+      url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+  - name: Add Elasticsearch APT repository (Ubuntu)
+    apt_repository:
+      repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
+      state: present
+
+  - name: Install Elasticsearch (Ubuntu)
+    apt:
+      name: elasticsearch
+      state: present
+
+  - name: Copy Elasticsearch configuration file (Ubuntu)
+    template:
+      src: elasticsearch.yml.j2
+      dest: /etc/elasticsearch/elasticsearch.yml
+    #notify: Restart Elasticsearch
+
+  - name: Install Kibana (Ubuntu)
+    apt:
+      name: kibana
+      state: present
+
+  - name: Install Logstash (Ubuntu)
+    apt:
+      name: logstash
+      state: present
+
+  - name: Enable / Restart Elasticsearch (Ubuntu)
+    service:
+      name: elasticsearch
+      state: started
+
+  - name: Enable / Restart Kibana (Ubuntu)
+    service:
+      name: elasticsearch
+      state: started
+
+  - name: Enable / Restart Logstash (Ubuntu)
+    service:
+      name: logstash
+      state: started
